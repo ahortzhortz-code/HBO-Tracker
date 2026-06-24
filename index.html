@@ -1,419 +1,839 @@
 <!DOCTYPE html>
+
 <html lang="th">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>HBO GO // CYBER-TRACKER 2077</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;700&family=Chakra+Petch:wght@300;700&display=swap" rel="stylesheet">
+
     <style>
+
         :root {
+
             --neon-pink: #ff0055;
+
             --neon-cyan: #00f2ff;
+
             --cyber-yellow: #f3e600;
+
             --dark-bg: #0d0d0d;
+
             --card-bg: #1a1a1a;
+
             --glitch-font: 'Oxanium', cursive;
+
         }
+
+
 
         body {
+
             background-color: var(--dark-bg);
+
             background-image: 
+
                 linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+
                 linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+
             background-size: 30px 30px;
+
             color: #fff;
+
             font-family: 'Chakra Petch', sans-serif;
+
             margin: 0;
+
             padding: 20px;
+
             overflow-x: hidden;
+
         }
+
+
 
         /* --- Header Styling --- */
+
         .cyber-header {
+
             text-align: center;
+
             margin-bottom: 40px;
+
             position: relative;
+
         }
+
+
 
         .cyber-title {
+
             font-family: var(--glitch-font);
+
             font-size: 3rem;
+
             text-transform: uppercase;
+
             color: var(--cyber-yellow);
+
             text-shadow: 3px 3px 0px var(--neon-pink);
+
             margin: 0;
+
             letter-spacing: 5px;
+
         }
+
+
 
         .sub-status {
+
             color: var(--neon-cyan);
+
             font-size: 0.9rem;
+
             letter-spacing: 2px;
+
             text-transform: uppercase;
+
         }
+
+
 
         /* --- Main Container --- */
+
         .container {
+
             max-width: 1000px;
+
             margin: 0 auto;
+
         }
+
+
 
         .controls {
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             border-left: 5px solid var(--cyber-yellow);
+
             padding: 10px 20px;
+
             background: rgba(243, 230, 0, 0.1);
+
             margin-bottom: 20px;
+
             clip-path: polygon(0 0, 100% 0, 98% 100%, 0% 100%);
+
         }
+
+
 
         button.refresh-btn {
+
             background: transparent;
+
             border: 1px solid var(--neon-cyan);
+
             color: var(--neon-cyan);
+
             padding: 8px 20px;
+
             font-family: var(--glitch-font);
+
             cursor: pointer;
+
             text-transform: uppercase;
+
             transition: 0.3s;
+
         }
+
+
 
         button.refresh-btn:hover {
+
             background: var(--neon-cyan);
+
             color: #000;
+
             box-shadow: 0 0 15px var(--neon-cyan);
+
         }
+
+
 
         /* --- Table Styling (Desktop) --- */
+
         .table-wrapper {
+
             background: rgba(26, 26, 26, 0.8);
+
             border: 1px solid #333;
+
             padding: 5px;
+
             position: relative;
+
         }
+
+
 
         table {
+
             width: 100%;
+
             border-collapse: collapse;
+
         }
+
+
 
         th {
+
             background: #000;
+
             color: var(--cyber-yellow);
+
             text-transform: uppercase;
+
             font-size: 0.85rem;
+
             padding: 15px;
+
             text-align: center;
+
             border-bottom: 2px solid var(--cyber-yellow);
+
         }
+
+
 
         td {
+
             padding: 15px;
+
             text-align: center;
+
             border-bottom: 1px solid #333;
+
         }
+
+
 
         /* --- Status Colors --- */
+
         .status-paid { color: var(--neon-cyan); font-weight: bold; }
+
         .status-wait { color: var(--cyber-yellow); }
+
         .time-good { color: #00ff88; }
+
         .time-warning { color: var(--cyber-yellow); font-weight: bold; }
+
         .time-overdue { color: var(--neon-pink); font-weight: bold; text-shadow: 0 0 10px var(--neon-pink); }
 
+
+
         /* --- Action Button --- */
+
         .pay-btn {
+
             background: var(--neon-pink);
+
             color: #fff;
+
             border: none;
+
             padding: 10px 15px;
+
             font-family: var(--glitch-font);
+
             font-weight: bold;
+
             cursor: pointer;
+
             clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+
             transition: 0.2s;
+
         }
+
+
 
         .pay-btn:hover {
+
             transform: scale(1.1);
+
             box-shadow: 0 0 20px var(--neon-pink);
+
         }
+
+
 
         /* --- Modal Styling --- */
+
         .modal {
+
             display: none;
+
             position: fixed;
+
             top: 0; left: 0; width: 100%; height: 100%;
+
             background: rgba(0,0,0,0.9);
+
             z-index: 1000;
+
             justify-content: center; align-items: center;
+
             backdrop-filter: blur(5px);
+
         }
+
+
 
         .modal-content {
+
             background: var(--card-bg);
+
             border: 2px solid var(--neon-cyan);
+
             width: 90%; max-width: 400px;
+
             padding: 30px;
+
             text-align: center;
+
             position: relative;
+
             box-shadow: 0 0 30px var(--neon-cyan);
+
         }
+
+
 
         .qr-frame {
+
             background: #fff;
+
             padding: 15px;
+
             margin: 20px auto;
+
             width: fit-content;
+
             border: 4px double var(--neon-cyan);
+
         }
+
+
 
         .modal-close {
+
             position: absolute;
+
             top: 10px; right: 15px;
+
             color: var(--neon-pink);
+
             font-size: 25px;
+
             cursor: pointer;
+
         }
+
+
 
         /* --- Mobile Layout --- */
+
         @media (max-width: 768px) {
+
             .cyber-title { font-size: 2rem; }
+
             
+
             table, thead, tbody, th, td, tr { display: block; }
+
             thead tr { position: absolute; top: -9999px; }
+
             tr { border: 1px solid var(--neon-cyan); margin-bottom: 20px; background: var(--card-bg); }
+
             td { text-align: right; padding-left: 50%; position: relative; border-bottom: 1px solid #222; }
+
             td:before {
+
                 content: attr(data-label);
+
                 position: absolute; left: 15px; font-weight: bold; color: var(--neon-cyan); text-transform: uppercase;
+
             }
+
             td:last-child { background: rgba(255, 0, 85, 0.1); text-align: center; padding: 15px; }
+
             td:last-child:before { display: none; }
+
         }
+
+
 
         #loading {
+
             text-align: center; padding: 50px; font-size: 1.5rem; color: var(--cyber-yellow);
+
         }
+
     </style>
+
 </head>
+
 <body>
 
+
+
 <div class="container">
+
     <header class="cyber-header">
+
         <h1 class="cyber-title">HBO GO // ACCESS</h1>
+
         <div class="sub-status">Neural Link: <span style="color: var(--neon-cyan)">Stable</span> // Encryption: <span style="color: var(--neon-cyan)">Active</span></div>
+
     </header>
 
+
+
     <div class="controls">
+
         <div>SYSTEM STATUS: <span id="current-date" style="color: var(--neon-cyan)"></span></div>
+
         <button class="refresh-btn" onclick="fetchData()">Re-Scan Data</button>
+
     </div>
+
+
 
     <div id="loading">SCANNING SYSTEM...</div>
 
+
+
     <div class="table-wrapper" id="content-area" style="display: none;">
+
         <table>
+
             <thead>
+
                 <tr>
+
                     <th>Terminal</th>
+
                     <th>Status</th>
+
                     <th>Last Cycle</th>
+
                     <th>Next Cycle</th>
+
                     <th>Time Remaining</th>
+
                     <th>Action</th>
+
                 </tr>
+
             </thead>
+
             <tbody id="table-body">
+
                 </tbody>
+
         </table>
+
     </div>
+
 </div>
+
+
 
 <div id="payModal" class="modal">
+
     <div class="modal-content">
+
         <span class="modal-close" onclick="closeModal()">&times;</span>
+
         <h2 style="color: var(--cyber-yellow); margin-top: 0;">RECHARGE CREDITS</h2>
+
         <p>Terminal: <span id="modal-slot" style="color: var(--neon-cyan)"></span></p>
+
         
+
         <div class="qr-frame">
+
             <img id="qr-img" src="" style="width: 200px; height: 200px;" alt="QR Code">
+
         </div>
+
+
 
         <div style="background: #000; padding: 15px; border: 1px solid #333; text-align: left; font-size: 0.9rem;">
+
             <p style="margin: 5px 0;">PROMPTPAY: <span style="color: var(--cyber-yellow)" id="modal-pp-num"></span></p>
+
             <!-- สามารถแก้ชื่อบัญชีตรงนี้ได้ถ้าต้องการเปลี่ยน -->
+
             <p style="margin: 5px 0;">NAME: <span style="color: var(--cyber-yellow)">อุ่นอากาศ พิศเพ็ง</span></p>
+
+            <p style="margin: 5px 0;">CREDITS: <span style="color: var(--neon-pink); font-weight: bold; font-size: 1.2rem;" id="modal-price"></span></p>
+
         </div>
+
         <p style="font-size: 0.7rem; color: var(--neon-cyan); margin-top: 15px;">// โอนแล้วอย่าลืมส่งสลิปให้ดูด้วยเด้อ //</p>
+
     </div>
+
 </div>
 
+
+
 <script>
+
     // HBO API Link
+
     const api_url = 'https://script.google.com/macros/s/AKfycbxGRvIe1kAFTmGhGPT8REA_lI0U8eC-AtW9JeGeJDBQlfzIim5pmJO5ArsR6mkUTt0mQg/exec';
 
+
+
     // เพิ่มการรับค่าเบอร์พร้อมเพย์ (ppNum)
+
     function openModal(slot, price, ppNum) {
+
         document.getElementById('modal-slot').innerText = slot;
+
         document.getElementById('modal-price').innerText = price + ' THB';
+
         document.getElementById('modal-pp-num').innerText = ppNum;
+
         document.getElementById('qr-img').src = `https://promptpay.io/${ppNum}/${price}.png`;
+
         document.getElementById('payModal').style.display = 'flex';
+
     }
+
+
 
     function closeModal() {
+
         document.getElementById('payModal').style.display = 'none';
+
     }
+
+
 
     // ฟังก์ชันแปลงปีให้อ่านได้ถูกต้อง
+
     function parseYear(yearRaw) {
+
         if (yearRaw < 100) {
+
             if (yearRaw < 40) return 2000 + yearRaw;       // ค.ศ. 2 หลัก
+
             else return 2500 + yearRaw - 543;              // พ.ศ. 2 หลัก
+
         } else if (yearRaw >= 2500) {
+
             return yearRaw - 543;                          // พ.ศ. 4 หลัก
+
         }
+
         return yearRaw;                                    // ค.ศ. 4 หลัก
+
     }
 
+
+
     // คำนวณวันหมดอายุโดยให้ความสำคัญกับช่อง "รอบต่อไป"
+
     function calculateCycle(dateStr, nextDateStr) {
+
         if (!dateStr && !nextDateStr) return { text: "N/A", class: "", btn: false, next: "-" };
+
         
+
         let nextCycle;
+
         let displayNextDate = nextDateStr;
 
+
+
         if (nextDateStr) {
+
             const parts = nextDateStr.split('/');
+
             if(parts.length === 3) {
+
                 const day = parseInt(parts[0], 10);
+
                 const month = parseInt(parts[1], 10) - 1;
+
                 const yearCE = parseYear(parseInt(parts[2], 10));
+
                 nextCycle = new Date(yearCE, month, day);
+
             }
+
         }
+
         
+
         if (!nextCycle && dateStr) {
+
             const parts = dateStr.split('/');
+
             if(parts.length === 3) {
+
                 const day = parseInt(parts[0], 10);
+
                 const month = parseInt(parts[1], 10) - 1;
+
                 const yearRaw = parseInt(parts[2], 10);
+
                 const yearCE = parseYear(yearRaw);
+
                 nextCycle = new Date(yearCE + 1, month, day);
+
                 displayNextDate = `${day.toString().padStart(2,'0')}/${(month+1).toString().padStart(2,'0')}/${yearRaw+1}`;
+
             }
+
         }
+
+
 
         if (!nextCycle) return { text: "INVALID FORMAT", class: "time-warning", btn: false, next: "-" };
 
+
+
         const today = new Date();
+
         today.setHours(0,0,0,0);
 
+
+
         const diffTime = nextCycle - today;
+
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
+
+
         if (diffDays < 0) {
+
             let mDiff = today.getMonth() - nextCycle.getMonth() + (12 * (today.getFullYear() - nextCycle.getFullYear()));
+
             let dDiff = today.getDate() - nextCycle.getDate();
+
             if (dDiff < 0) {
+
                 mDiff--;
+
                 const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+
                 dDiff += prevMonth;
+
             }
+
             
+
             let timeText = "EXPIRED (";
+
             if (mDiff > 0) timeText += `${mDiff}M `;
+
             timeText += `${dDiff}D)`;
+
             
+
             return { next: displayNextDate, text: timeText, class: "time-overdue", btn: true };
+
         } else if (diffDays <= 15) {
+
             return { next: displayNextDate, text: `${diffDays} DAYS REMAINING`, class: "time-warning", btn: true };
+
         } else {
+
             let mDiff = nextCycle.getMonth() - today.getMonth() + (12 * (nextCycle.getFullYear() - today.getFullYear()));
+
             let dDiff = nextCycle.getDate() - today.getDate();
+
             if (dDiff < 0) { 
+
                 mDiff--; 
+
                 const daysInPrevMonth = new Date(nextCycle.getFullYear(), nextCycle.getMonth(), 0).getDate();
+
                 dDiff += daysInPrevMonth; 
+
             }
+
             
+
             let timeText = "";
+
             if (mDiff > 0) timeText += `${mDiff}M `;
+
             timeText += `${dDiff}D`;
+
             
+
             return { next: displayNextDate, text: timeText, class: "time-good", btn: false };
+
         }
+
     }
 
+
+
     function fetchData() {
+
         document.getElementById('loading').style.display = 'block';
+
         document.getElementById('content-area').style.display = 'none';
+
         document.getElementById('current-date').innerText = new Date().toLocaleDateString();
 
+
+
         fetch(api_url)
+
             .then(res => {
+
                 if (!res.ok) throw new Error("CORS/Permission Error. Did you deploy as 'Anyone'?");
+
                 return res.json();
+
             })
+
             .then(data => {
+
                 if (!Array.isArray(data) || data.length === 0) {
+
                     throw new Error("EMPTY RESPONSE. (Check Apps Script Sheet ID or Column Names)");
+
                 }
 
+
+
                 const tbody = document.getElementById('table-body');
+
                 tbody.innerHTML = '';
 
+
+
                 data.forEach(row => {
+
                     const slot = row['ลำดับที่'] || 'UNKNOWN';
+
                     const status = row['สถานะ'] || 'OFFLINE';
+
                     const date = row['วันเดือนปี'] || '';
+
                     const nextDate = row['รอบต่อไป'] || '';
+
                     
+
                     if (slot === 'UNKNOWN' || slot === '') return; 
 
+
+
                     // 1. ค้นหาคอลัมน์ที่เป็นราคาและดึงเบอร์พร้อมเพย์จากหัวข้อ (ถ้าคุณตั้งชื่อหัวข้อเป็น "พร้อมเพย์ 082...")
+
                     let priceKey = Object.keys(row).find(k => k.includes('ราคา') || k.includes('พร้อมเพย์'));
+
                     let price = priceKey ? row[priceKey] : '0';
+
                     
+
                     let ppNum = '1749700014560'; // เบอร์สำรองเริ่มต้น
+
                     if (priceKey) {
+
                         // ดึงเฉพาะ "ตัวเลข" ออกมาจากชื่อหัวข้อคอลัมน์ (เช่น "พร้อมเพย์ 0822308045" -> จะได้ "0822308045")
+
                         let nums = priceKey.match(/\d+/g);
+
                         if (nums) {
+
                             ppNum = nums.join('');
+
                         }
+
                     }
+
+
 
                     const cycle = calculateCycle(date, nextDate);
 
+
+
                     const tr = document.createElement('tr');
+
                     tr.innerHTML = `
+
                         <td data-label="Terminal">${slot}</td>
+
                         <td data-label="Status" class="${status.includes('จ่ายแล้ว') ? 'status-paid' : 'status-wait'}">${status}</td>
+
                         <td data-label="Last Cycle">${date}</td>
+
                         <td data-label="Next Cycle" style="color: var(--cyber-yellow)">${cycle.next || '-'}</td>
+
                         <td data-label="Time Remaining" class="${cycle.class}">${cycle.text}</td>
+
                         <td>
+
                             ${cycle.btn ? `<button class="pay-btn" onclick="openModal('${slot}', '${price}', '${ppNum}')">RECHARGE</button>` : `<span style="opacity: 0.3; font-size: 0.7rem;">LOCKED</span>`}
+
                         </td>
+
                     `;
+
                     tbody.appendChild(tr);
+
                 });
 
+
+
                 document.getElementById('loading').style.display = 'none';
+
                 document.getElementById('content-area').style.display = 'block';
+
             })
+
             .catch(err => {
+
                 console.error(err);
+
                 document.getElementById('loading').innerHTML = `<span style="color: var(--neon-pink)">SYSTEM ERROR: <br><span style="font-size:1rem;">${err.message}</span><br><br>💡 โปรดเช็ค 1) เปลี่ยน Sheet ID หรือยัง? 2) Deploy เป็น New Version & Anyone ไหม?</span>`;
+
             });
+
     }
 
+
+
     window.onload = fetchData;
+
 </script>
 
+
+
 </body>
+
 </html>
