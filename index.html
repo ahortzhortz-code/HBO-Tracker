@@ -379,7 +379,7 @@
                     let priceKey = Object.keys(row).find(k => k.includes('ราคา') || k.includes('พร้อมเพย์'));
                     let price = priceKey ? row[priceKey] : '0';
                     
-                    let ppNum = '1749700003240'; // เบอร์สำรองเริ่มต้น
+                    let ppNum = '1749700014560'; // เบอร์สำรองเริ่มต้น
                     if (priceKey) {
                         // ดึงเฉพาะ "ตัวเลข" ออกมาจากชื่อหัวข้อคอลัมน์ (เช่น "พร้อมเพย์ 0822308045" -> จะได้ "0822308045")
                         let nums = priceKey.match(/\d+/g);
